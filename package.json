@@ -17,6 +17,7 @@
     "pinia": "^2.0.32",
     "vite-plugin-style-import": "^2.0.0",
     "vue": "^3.2.47",
+    "vue-hooks-plus": "^1.6.0-alpha.8",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

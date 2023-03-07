@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
     name: '用户管理',
     component: () => import('@/views/user-list/index.vue'),
     meta: {
-      icon: 'icon-user-add',
+      icon: 'icon-settings',
     },
   },
 ];
