@@ -8,8 +8,8 @@ const columns = [
     dataIndex: 'staff_name',
   },
   {
-    title: '所在部门',
-    dataIndex: 'department',
+    title: '所在学院',
+    dataIndex: 'college',
   },
   {
     title: '打卡时间',

@@ -3,7 +3,6 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/recordList',
     name: '考勤管理',
-    //component: () => import("@/views/403/index.vue"),
     component: () => import('@/views/record-list/index.vue'),
     meta: {
       icon: 'icon-find-replace',
@@ -11,7 +10,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/userList',
-    name: '用户管理',
+    name: '员工管理',
     component: () => import('@/views/user-list/index.vue'),
     meta: {
       icon: 'icon-settings',
