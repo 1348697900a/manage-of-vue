@@ -3,13 +3,6 @@ import type { ISelectDrownOptions, MResponse } from './type';
 class Api {
   private prefix = '';
   private _request = myRequest;
-  login() {
-    return this._request({
-      method: 'post',
-      params: { name: 'lyx', password: '111' },
-      path: this.prefix + '/login',
-    });
-  }
   testGet() {
     return this._request({
       method: 'get',
@@ -87,6 +80,13 @@ class Api {
       method: 'get',
       params: { keywords },
       path: this.prefix + '/test',
+    });
+  }
+  login(params: {account:string,password:string}) {
+    return this._request<MResponse<any>>({
+      method: 'post',
+      params,
+      path: this.prefix + '/login',
     });
   }
 }

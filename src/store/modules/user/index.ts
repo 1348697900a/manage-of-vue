@@ -1,30 +1,20 @@
+import api from '@/api';
 import { defineStore } from 'pinia';
 import type { LoginInfo, UserInfo } from './type';
 
 const useUserInfoStore = defineStore('user', {
-  state: (): UserInfo => ({ name: undefined, isLogin: false,authList:['hhh'] }),
-  getters: {
-    userInfo(state: UserInfo): UserInfo {
-      return {
-        ...state,
-        isLogin: false,
-      };
-    },
-  },
+  state: (): UserInfo => ({ admin_name: undefined, isLogin: false,authList:['hhh'] }),
   actions: {
-    login(formData: LoginInfo): { code: number; data?: any } {
-    //  console.log(formData);
-      const res = {
-        code: 0,
-        data: {
-          userInfo: {
-            name: 'lyx',
-            isLogin: true,
-          },
-        },
-      };
-      this.updateUserInfo(res.data.userInfo)
-      return res;
+    async login(formData: LoginInfo){
+      try{
+        const {data} =await api.login(formData)
+        this.updateUserInfo({
+          isLogin:true,
+          admin_name: data.list.admin_name
+        })
+      }catch{
+        throw new Error('login error')
+      }
     },
     updateUserInfo(data: Partial<UserInfo>){
         this.$patch(data)

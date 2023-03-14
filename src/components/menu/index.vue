@@ -11,12 +11,13 @@
       const router = useRouter();
       const selectedKeys = ref<string[]>([]);
       const openSelectedKeys = ref<string[]>([]);
-      // 过滤无权限的路由
+      // 过滤无权限的路由和需要隐藏的界面
       const renderSubMenu = () => {
         const helper = (_route: RouteRecordRaw[], nodeList: any[] = []) => {
           if (_route.length > 0) {
             _route.forEach((config) => {
               const routeAuth = config.meta?.auth;
+              if(config.meta?.hidden)return
               if (!routeAuth || checkAuth(routeAuth)) {
                 const icon = config.meta?.icon
                   ? h(compile(`<${config.meta.icon}/>`))

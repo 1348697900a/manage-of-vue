@@ -1,6 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
+    path:'/',
+    redirect:'/login'
+  },
+  {
     path: '/recordList',
     name: '考勤管理',
     component: () => import('@/views/record-list/index.vue'),
@@ -17,11 +21,12 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/test',
-    name: 'test',
-    component: () => import('@/views/test/index.vue'),
+    path: '/login',
+    name: '登陆界面',
+    component: () => import('@/views/login/index.vue'),
     meta: {
-      icon: 'icon-settings',
+      hidden:true
+
     },
   },
 ];

@@ -1,24 +1,30 @@
 <template>
   <ALayout class="default-layout">
-    <ALayoutHeader class="header">
+    <ALayoutHeader v-if="userInfo.isLogin" class="header">
       <a
         href="https://www.szu.edu.cn"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img style="height: 28px;" src="https://www.szu.edu.cn/images/logo_03.png" alt="" />
+        <img
+          style="height: 28px"
+          src="https://www.szu.edu.cn/images/logo_03.png"
+          alt=""
+        />
       </a>
     </ALayoutHeader>
     <ALayout>
-      <ALayoutSider class="sider"><Menu /> </ALayoutSider>
-      <ALayoutContent class="content"> <PageLayout /> </ALayoutContent>
+      <ALayoutSider v-if="userInfo.isLogin" class="sider"><Menu /> </ALayoutSider>
+      <ALayoutContent :class="{content:userInfo.isLogin}"> <PageLayout /> </ALayoutContent>
     </ALayout>
   </ALayout>
 </template>
 
 <script lang="ts" setup>
   import Menu from '@/components/menu/index.vue';
+  import { useUserInfoStore } from '@/store';
   import PageLayout from './page-layout.vue';
+  const userInfo = useUserInfoStore();
 </script>
 <style scoped lang="less">
   .default-layout {
@@ -34,8 +40,7 @@
     }
     .content {
       padding: 20px;
-      background-color: rgba(245, 244, 244, .6);
-   
+      background-color: rgba(245, 244, 244, 0.6);
     }
   }
 </style>

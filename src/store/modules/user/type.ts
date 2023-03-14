@@ -1,9 +1,9 @@
 export interface UserInfo {
-    name?:string,
+    admin_name?:string,
     authList?: string[],
     isLogin: boolean
 }
 export interface LoginInfo {
-    account: number,
-    password: string|number
+    account: string,
+    password: string
 }
