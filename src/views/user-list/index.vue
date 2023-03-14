@@ -53,12 +53,8 @@
               <a-table-column title="操作">
                 <template #cell="{ record }">
                   <a-button
-                    @click="
-                      $modal.confirm({
-                        title: '再次确认',
-                        content: `是否禁用该${record.staff_name}的打卡权限？点击同意员工状态将变为已离职`,
-                      })
-                    "
+                    v-if="record.is_exist === '在职'"
+                    @click="() => handleStaffState(record)"
                     >禁用</a-button
                   >
                 </template>
@@ -129,6 +125,7 @@
   import getData from './data';
   import type { FormInstance } from '@arco-design/web-vue';
   import api from '@/api';
+  import modal from '@arco-design/web-vue/es/modal';
   const formData = ref({
     staff_name_list: [],
   });
@@ -168,6 +165,22 @@
   const handleSubmit = async () => {
     api.addUserInfo(modalData.value);
     // modalFormRef.value?.resetFields();
+  };
+  const handleStaffState = async (record: any) => {
+    modal.confirm({
+      title: '再次确认',
+      content: `是否禁用该${record.staff_name}的打卡权限？点击同意员工状态将变为已离职`,
+      onOk: () => {
+        api
+          .updateUserInfo({
+            is_exist:record.is_exist,
+            fingerprintID: record.fingerprintID,
+          })
+          .then(() => {
+            run(formData.value);
+          });
+      },
+    });
   };
   watch(
     formData.value,

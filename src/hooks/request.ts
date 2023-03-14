@@ -5,17 +5,23 @@ export type RequestType = {
   path: string;
   params?: Record<any, any>;
 };
-axios.interceptors.response.use(
+const service = axios.create({
+  baseURL: '/manageServer',
+  timeout: 5000
+})
+service.interceptors.response.use(
   (res: any) => {
     //console.log(res.data);
     const resp = res.data;
+   // console.log(resp);
+    
     if (res.data?.code !== 0) {
       Message.error(resp?.msg);
       throw new Error(resp?.msg)
     }
 
     // 容错处理
-    return res;
+    return res.data;
   },
   () => {
     // console.log(e);
@@ -24,21 +30,22 @@ axios.interceptors.response.use(
   }
 );
 
-axios.interceptors.request.use((config) => {
+service.interceptors.request.use((config) => {
   // 对请求参数统一处理、滤值、大小写转化等。
   // token、user Name等通用信息注入
   //  console.log('requestConfig:', config);
   //console.log("request:",config);
-
+ // console.log(config);
+  
   return config;
 });
 
-const request = (config: RequestType) => {
+const request = <T=any>(config: RequestType): Promise<T> => {
   const { method, path, params } = config;
   if (method === 'get') {
-    return axios({ method, params: params, url: path });
+    return service({ method, params: params, url: path });
   } else {
-    return axios({ method, data: params, url: path });
+    return service({ method, data: params, url: path });
   }
 };
 

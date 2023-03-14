@@ -16,6 +16,14 @@ const routes: RouteRecordRaw[] = [
       icon: 'icon-settings',
     },
   },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/test/index.vue'),
+    meta: {
+      icon: 'icon-settings',
+    },
+  },
 ];
 
 export default routes;

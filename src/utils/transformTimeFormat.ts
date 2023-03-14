@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
  * @returns 
  */
 const transformTimeFormat = (
-  time: string | number,
+  time: string | number | undefined,
   format: string = 'M月D号 HH:mm:ss'
-) => dayjs(time).format(format);
+) => time ? dayjs(time).format(format) : "---"
 
 export default transformTimeFormat;

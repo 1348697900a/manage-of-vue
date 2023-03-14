@@ -1,6 +1,7 @@
 import myRequest from '@/hooks/request';
+import type { ISelectDrownOptions, MResponse } from './type';
 class Api {
-  private prefix = '/manageServer';
+  private prefix = '';
   private _request = myRequest;
   login() {
     return this._request({
@@ -23,11 +24,16 @@ class Api {
       path: this.prefix + '/testPost',
     });
   }
+  /**
+   * 打卡列表
+   * @param params
+   * @returns
+   */
   getRecordList(params: Record<string, any>) {
-    return this._request({
+    return this._request<MResponse<{ [x: string]: any }[]>>({
       method: 'get',
       params,
-      path: this.prefix + '/getRecordList',
+      path: '/getRecordList',
     });
   }
   getUserList(params: Record<string, any>) {
@@ -37,18 +43,50 @@ class Api {
       path: this.prefix + '/getUserList',
     });
   }
-  addUserInfo(params:any) {
+  addUserInfo(params: any) {
     return this._request({
       method: 'post',
       params,
       path: this.prefix + '/addUserInfo',
     });
   }
-  validateFingerprintID(params:any) {
+  validateFingerprintID(params: any) {
     return this._request({
       method: 'get',
       params,
       path: this.prefix + '/validateFingerprintID',
+    });
+  }
+  getConfig() {
+    return this._request<
+      MResponse<{ work_time_range: { morning: string[]; afternoon: string[] } }>
+    >({
+      method: 'get',
+      path: this.prefix + '/getConfig',
+    });
+  }
+  updateConfig(params: any) {
+    return this._request({
+      method: 'post',
+      params,
+      path: this.prefix + '/updateConfig',
+    });
+  }
+  updateUserInfo(params: {
+    is_exist: '在职' | '离职';
+    fingerprintID: number | string;
+  }) {
+    return this._request<MResponse<ISelectDrownOptions>>({
+      method: 'post',
+      params,
+      path: this.prefix + '/updateUserInfo',
+    });
+  }
+  test(keywords: any) {
+    return this._request<MResponse<ISelectDrownOptions>>({
+      method: 'get',
+      params: { keywords },
+      path: this.prefix + '/test',
     });
   }
 }

@@ -14,4 +14,6 @@ app.use(store)
 app.use(router)
 app.use(ArcoVue)
 app.use(ArcoVueIcon)
+
+
 app.mount('#app')

@@ -1,9 +1,10 @@
 
 import { createPinia } from "pinia";
+import useConfigStore from "./modules/config";
 import useUserInfoStore from "./modules/user"
 
 const pinia = createPinia();
 
-export {useUserInfoStore}
+export {useUserInfoStore,useConfigStore}
 
 export default pinia
