@@ -7,17 +7,19 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/recordList',
     name: '考勤管理',
-    component: () => import('@/views/record-list/index.vue'),
+    component: () => import('@/views/record-list/wrapper-auth/index.vue'),
     meta: {
       icon: 'icon-find-replace',
+      auth:'record_list'
     },
   },
   {
     path: '/userList',
     name: '员工管理',
-    component: () => import('@/views/user-list/index.vue'),
+    component: () => import('@/views/user-list/wrapper-auth/index.vue'),
     meta: {
       icon: 'icon-settings',
+      auth:'user_list'
     },
   },
   {

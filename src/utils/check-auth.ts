@@ -1,10 +1,20 @@
 import { useUserInfoStore } from '@/store';
 const useCheckAuth = () => {
+  const userInfo = useUserInfoStore();
+  console.log(userInfo.isLogin,userInfo.admin_name);
+  
+  const checkAuth = (auth: string) => {
+    if (!userInfo.isLogin) return false;
+    return (
+      (userInfo.authList || []).includes(auth) ||
+      userInfo.authList?.includes('admin')
+    );
+  };
 
-  const { authList = [] } = useUserInfoStore();
-  const checkAuth = (auth: string) => authList.includes(auth);
-
-  return [authList, checkAuth] as [string[], (auth: string) => boolean];
+  return [userInfo.authList, checkAuth] as [
+    string[],
+    (auth: string) => boolean
+  ];
 };
 
 export default useCheckAuth;

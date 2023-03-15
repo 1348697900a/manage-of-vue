@@ -4,7 +4,9 @@ import NotAuthPage from '@/views/403/index.vue'
 const checkPageAuth = (targetComponent: any) => {
   
   return (auth:string) => {
-    const [,checkAuth] = useCheckAuth()
+    const [list,checkAuth] = useCheckAuth()
+    console.log(list);
+    
     if(checkAuth(auth)) return targetComponent;
     else return NotAuthPage
   }

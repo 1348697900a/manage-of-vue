@@ -82,7 +82,7 @@ class Api {
       path: this.prefix + '/test',
     });
   }
-  login(params: {account:string,password:string}) {
+  login(params?: {account:string,password:string}) {
     return this._request<MResponse<any>>({
       method: 'post',
       params,
