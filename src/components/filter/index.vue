@@ -1,5 +1,7 @@
 <script lang="tsx">
+  import type { FormInstance } from '@arco-design/web-vue';
   import { defineComponent, ref, type PropType, type VNode } from 'vue';
+  import BSelect from '@/components/selectB/index.vue';
   interface FilterType {
     label: string;
     name: string;
@@ -9,30 +11,23 @@
   export default defineComponent({
     props: {
       filterList: {
-        type: Array as PropType<FilterListType>,
-      },
-      onChange: {
-        type: Function as PropType<(e: { key: string; value?: any }) => void>,
+        type: Array as PropType<FilterListType> |undefined,
       },
     },
+    emits: ['change'],
     setup(props) {
       const form = ref<{ name: string; value?: any }[]>(
         (props.filterList || []).map((item) => ({
           name: item.name,
         }))
       );
+      const formRef = ref<FormInstance>();
       return () => (
         <a-form model={form} ref={form} layout="vertical">
           <a-row gutter={[42, 12]}>
             {props.filterList?.map((item) => (
               <a-col span={6}>
                 <a-form-item
-                  onChange={(e: any) => {
-                    props.onChange?.({
-                      key: item.name,
-                      value: e.target?.value,
-                    });
-                  }}
                   field={item.name}
                   label={item.label}
                 >
