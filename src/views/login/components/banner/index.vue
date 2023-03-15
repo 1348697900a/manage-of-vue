@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="banner-inner">
-      <a-carousel class="carousel" animation-name="fade">
+      <a-carousel  :auto-play="{interval:2000}" class="carousel">
         <a-carousel-item
           style="width: 100%; height: 100vh"
           v-for="(item, index) in carouselItem"
