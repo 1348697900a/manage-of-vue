@@ -7,14 +7,12 @@
           <a-row :gutter="[24, 24]">
             <a-col :span="6">
               <a-form-item field="staff_name_list" label="员工姓名">
-                <TSelect
+                <BSelect
                   placeholder="请输入员工姓名"
-                  v-model="queryConfig.staff_name_list"
-                  :getData="handleFetchData"
-                  :originSearch="true"
-                  :allowCreate="true"
+                  :allow-clear="true"
+                  :allow-create="true"
                   :multiple="true"
-                  @change="handleChange"
+                  v-model="queryConfig.staff_name_list"
                 />
               </a-form-item>
             </a-col>
@@ -131,7 +129,7 @@
 
 <script lang="tsx" setup>
   import PageContentLayout from '@/layout/page-content-layout.vue';
-  import TSelect from '@/components/select/index.vue';
+  import BSelect from '@/components/selectB/index.vue';
   import type { FormInstance } from '@arco-design/web-vue';
   import useRequest from 'vue-hooks-plus/es/useRequest';
   import { ref, watch } from 'vue';
@@ -174,9 +172,6 @@
         afternoon: modalData.value.work_time_range2,
       },
     });
-  const handleChange = (e: any) => {
-    console.log(e);
-  };
   watch(
     queryConfig.value,
     () => {
