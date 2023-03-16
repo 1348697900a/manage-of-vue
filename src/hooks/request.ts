@@ -6,7 +6,7 @@ export type RequestType = {
   params?: Record<any, any>;
 };
 const service = axios.create({
-  baseURL: '/manageServer',
+  //baseURL: '/manageServer',
   timeout: 5000
 })
 service.interceptors.response.use(

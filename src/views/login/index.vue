@@ -5,9 +5,6 @@
       <div class="content-inner">
         <LoginForm />
       </div>
-      <!-- <div class="footer">
-        <Footer />
-      </div> -->
     </div>
   </div>
 </template>

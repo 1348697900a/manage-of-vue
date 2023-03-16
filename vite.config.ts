@@ -18,7 +18,11 @@ export default defineConfig({
       '/manageServer': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-      }
+      },
+      '/esp8266': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
     },
   },
 });

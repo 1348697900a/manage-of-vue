@@ -45,6 +45,44 @@
         </a-form>
       </template>
       <template #table>
+        <a-space
+          style="width: 100%; justify-content: space-around"
+          size="large"
+        >
+          <template #split>
+            <a-divider direction="vertical" />
+          </template>
+          <a-statistic
+            title="在职员工"
+            :start="animationState"
+            animation
+            :animation-duration="500"
+            :value-from="0"
+            :value="showData.total_nums"
+            show-group-separator
+          >
+          </a-statistic>
+          <a-statistic
+            title="已打卡人数"
+            :value="showData.sign_nums"
+            animation
+            :animation-duration="500"
+            :start="animationState"
+            :value-from="0"
+            :value-style="{ color: 'green' }"
+          >
+          </a-statistic>
+          <a-statistic
+            title="未打卡人数"
+            :value-from="0"
+            :animation-duration="500"
+            :value="showData.total_nums-showData.sign_nums"
+            :value-style="{ color: 'red' }"
+            :start="animationState"
+            animation
+          >
+          </a-statistic>
+        </a-space>
         <div class="table-head">
           <div class="title">考勤列表</div>
           <div style="margin-left: 30px">
@@ -130,6 +168,7 @@
 <script lang="tsx" setup>
   import PageContentLayout from '@/layout/page-content-layout.vue';
   import BSelect from '@/components/selectB/index.vue';
+  import { useBoolean } from 'vue-hooks-plus';
   import type { FormInstance } from '@arco-design/web-vue';
   import useRequest from 'vue-hooks-plus/es/useRequest';
   import { ref, watch } from 'vue';
@@ -141,7 +180,7 @@
   import type { FormDataType, TableQueryType } from './type';
 
   const { work_time_range } = useConfigStore();
-
+  const [animationState, { setFalse, setTrue }] = useBoolean(false);
   const formData = ref<FormDataType>({
     date_range: [],
     college_list: [],
@@ -162,8 +201,10 @@
   });
   const modalFormRef = ref<FormInstance>();
   const visible = ref(false);
-  const handleFetchData = () =>
-    Promise.resolve([{ label: '小红', value: 'xiaohong' }]);
+  const showData = ref<{
+    total_nums: number;
+    sign_nums: number;
+  }>({ total_nums: 0, sign_nums: 0});
   const { data, loading, run } = useRequest(getData);
   const handleSubmit = () =>
     api.updateConfig({
@@ -172,12 +213,32 @@
         afternoon: modalData.value.work_time_range2,
       },
     });
+
   watch(
     queryConfig.value,
     () => {
       run(queryConfig.value);
+      setFalse();
+      api.dataShow().then((res) => {
+       
+        const infoList = [res.data.list[0]];
+        const list = infoList.map((v: any) => {
+          // 完成打卡人数
+          const sign_nums = Math.min(
+            v.total_nums - v.morning.length,
+            v.total_nums - v.afternoon.length
+          );
+          return {
+            sign_nums,
+            total_nums: v.total_nums,
+            date: v.date,
+          };
+        });
+        showData.value = list[0]
+        setTrue();
+      });
     },
-    { deep: true }
+    { deep: true, immediate: true }
   );
 </script>
 

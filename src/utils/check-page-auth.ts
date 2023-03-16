@@ -5,8 +5,6 @@ const checkPageAuth = (targetComponent: any) => {
   
   return (auth:string) => {
     const [list,checkAuth] = useCheckAuth()
-    console.log(list);
-    
     if(checkAuth(auth)) return targetComponent;
     else return NotAuthPage
   }

@@ -1,7 +1,8 @@
 import myRequest from '@/hooks/request';
+import transformTimeFormat from '@/utils/transformTimeFormat';
 import type { ISelectDrownOptions, MResponse } from './type';
 class Api {
-  private prefix = '';
+  private prefix = '/manageServer';
   private _request = myRequest;
   testGet() {
     return this._request({
@@ -26,7 +27,7 @@ class Api {
     return this._request<MResponse<{ [x: string]: any }[]>>({
       method: 'get',
       params,
-      path: '/getRecordList',
+      path: this.prefix+'/getRecordList',
     });
   }
   getUserList(params: Record<string, any>) {
@@ -82,11 +83,29 @@ class Api {
       path: this.prefix + '/test',
     });
   }
-  login(params?: {account:string,password:string}) {
+  login(params?: { account: string; password: string }) {
     return this._request<MResponse<any>>({
       method: 'post',
       params,
       path: this.prefix + '/login',
+    });
+  }
+  dataShow(
+    params: any = {
+      date: transformTimeFormat(new Date().getTime(), 'YYYY-MM-DD'),
+    }
+  ) {
+    return this._request<MResponse<any>>({
+      method: 'post',
+      params,
+      path: this.prefix + '/dataShow',
+    });
+  }
+  getStaffName(){
+    return this._request<MResponse<any>>({
+      method: 'post',
+      params: {id:0},
+      path: '/esp8266/getStaffName',
     });
   }
 }
