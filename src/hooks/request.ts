@@ -7,19 +7,16 @@ export type RequestType = {
 };
 const service = axios.create({
   //baseURL: '/manageServer',
-  timeout: 5000
-})
+  timeout: 5000,
+});
+service.defaults.headers.common['Authorization'] = window.localStorage.getItem('token') || '' ;
 service.interceptors.response.use(
   (res: any) => {
-    //console.log(res.data);
     const resp = res.data;
-   // console.log(resp);
-    
     if (res.data?.code !== 0) {
       Message.error(resp?.msg);
-      throw new Error(resp?.msg)
+      throw new Error(resp?.msg);
     }
-
     // 容错处理
     return res.data;
   },
@@ -35,12 +32,11 @@ service.interceptors.request.use((config) => {
   // token、user Name等通用信息注入
   //  console.log('requestConfig:', config);
   //console.log("request:",config);
- // console.log(config);
-  
-  return config;
+  // console.log(config);
+ return config
 });
 
-const request = <T=any>(config: RequestType): Promise<T> => {
+const request = <T = any>(config: RequestType): Promise<T> => {
   const { method, path, params } = config;
   if (method === 'get') {
     return service({ method, params: params, url: path });

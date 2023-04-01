@@ -1,10 +1,9 @@
 import { useUserInfoStore } from '@/store';
 const useCheckAuth = () => {
   const userInfo = useUserInfoStore();
-  console.log(userInfo.isLogin,userInfo.admin_name);
-  
-  const checkAuth = (auth: string) => {
+  const checkAuth = (auth?: string) => {
     if (!userInfo.isLogin) return false;
+    if(!auth) return true
     return (
       (userInfo.authList || []).includes(auth) ||
       userInfo.authList?.includes('admin')

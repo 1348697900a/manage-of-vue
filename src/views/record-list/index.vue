@@ -1,5 +1,8 @@
 <template>
   <div>
+    <AuthWrapper auth="22">
+      <AButton type="primary">test</AButton>
+    </AuthWrapper>
     <PageContentLayout>
       <template #filter>
         <div style="margin-bottom: 20px">筛选区</div>
@@ -162,11 +165,13 @@
         </a-form-item>
       </a-form>
     </a-modal>
+   
   </div>
 </template>
 
 <script lang="tsx" setup>
   import PageContentLayout from '@/layout/page-content-layout.vue';
+  import AuthWrapper from '@/components/auth-wrapper/index.vue'
   import BSelect from '@/components/selectB/index.vue';
   import { useBoolean } from 'vue-hooks-plus';
   import type { FormInstance } from '@arco-design/web-vue';
@@ -213,30 +218,32 @@
         afternoon: modalData.value.work_time_range2,
       },
     });
-
   watch(
     queryConfig.value,
     () => {
+      // 可以使用Promise并发
       run(queryConfig.value);
       setFalse();
       api.dataShow().then((res) => {
-       
         const infoList = [res.data.list[0]];
         const list = infoList.map((v: any) => {
           // 完成打卡人数
           const sign_nums = Math.min(
-            v.total_nums - v.morning.length,
-            v.total_nums - v.afternoon.length
+            showData.value.sign_nums - v?.morning.length ||0,
+            showData.value.sign_nums - v?.afternoon.length||0
           );
           return {
             sign_nums,
-            total_nums: v.total_nums,
-            date: v.date,
+            total_nums: v?.total_nums || 0,
+            date: v?.date,
           };
         });
         showData.value = list[0]
         setTrue();
       });
+      api.getStaffNums().then(res => {
+        showData.value.total_nums=res.data.list
+      })
     },
     { deep: true, immediate: true }
   );

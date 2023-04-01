@@ -50,18 +50,20 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useBoolean } from 'vue-hooks-plus';
-  import { Message, type FormInstance } from '@arco-design/web-vue';;
+  import { Message, type FormInstance } from '@arco-design/web-vue';
   import { useUserInfoStore } from '@/store';
-
+  import {encrypt,decrypt} from '@/utils/encrypt'
   const router = useRouter();
   const userInfo = useUserInfoStore();
   const loginData = ref<{ account: string; password: string }>({
     account: '',
     password: '',
   });
+    console.log(encrypt('hhh'));
+    
   const loginForm = ref<FormInstance>();
   const [loading, { setTrue, setFalse }] = useBoolean(false);
-
+  
   const handleSubmit = async () => {
     const res = await loginForm.value?.validate();
     if (res) {
@@ -71,7 +73,7 @@
     try {
       await userInfo.login({
         account: loginData.value.account,
-        password: loginData.value.password,
+        password: encrypt(loginData.value.password),
       });
       Message.success({
         content: `欢迎${userInfo.admin_name}回来👏👏👏`,

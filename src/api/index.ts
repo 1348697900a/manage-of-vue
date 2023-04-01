@@ -108,6 +108,12 @@ class Api {
       path: '/esp8266/getStaffName',
     });
   }
+  getStaffNums(){
+    return this._request<MResponse<any>>({
+      method: 'get',
+      path: this.prefix+'/getStaffNums',
+    });
+  }
 }
 
 const api = new Api();
